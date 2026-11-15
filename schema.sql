@@ -1,0 +1,28 @@
+CREATE DATABASE IF NOT EXISTS blood_bank CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE blood_bank;
+CREATE TABLE IF NOT EXISTS donors (
+ id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(100) NOT NULL, age TINYINT UNSIGNED NOT NULL,
+ gender VARCHAR(15) NOT NULL, phone CHAR(10) NOT NULL UNIQUE, blood_group VARCHAR(3) NOT NULL,
+ weight DECIMAL(5,2) NOT NULL, city VARCHAR(80) NOT NULL, last_donation DATE NULL,
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, INDEX idx_donor_name(name), INDEX idx_donor_group(blood_group)
+);
+CREATE TABLE IF NOT EXISTS stock (
+ id BIGINT PRIMARY KEY AUTO_INCREMENT, blood_group VARCHAR(3) NOT NULL, collection_date DATE NOT NULL,
+ expiry_date DATE NOT NULL, status ENUM('AVAILABLE','ISSUED','EXPIRED') NOT NULL DEFAULT 'AVAILABLE',
+ INDEX idx_stock_group_status(blood_group,status), INDEX idx_stock_expiry(expiry_date)
+);
+CREATE TABLE IF NOT EXISTS requests (
+ id BIGINT PRIMARY KEY AUTO_INCREMENT, hospital_name VARCHAR(140) NOT NULL, patient_name VARCHAR(100) NOT NULL,
+ blood_group VARCHAR(3) NOT NULL, units TINYINT UNSIGNED NOT NULL, priority ENUM('NORMAL','URGENT','EMERGENCY') NOT NULL,
+ status ENUM('PENDING','APPROVED','REJECTED') NOT NULL DEFAULT 'PENDING', created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ INDEX idx_request_status_priority(status,priority), INDEX idx_request_created(created_at)
+);
+CREATE TABLE IF NOT EXISTS donations (
+ id BIGINT PRIMARY KEY AUTO_INCREMENT, donor_id INT NOT NULL, units TINYINT UNSIGNED NOT NULL DEFAULT 1,
+ donation_date DATE NOT NULL, CONSTRAINT fk_donation_donor FOREIGN KEY(donor_id) REFERENCES donors(id) ON DELETE RESTRICT,
+ INDEX idx_donation_date(donation_date)
+);
+CREATE TABLE IF NOT EXISTS admins (
+ id INT PRIMARY KEY AUTO_INCREMENT, username VARCHAR(50) NOT NULL UNIQUE, password_hash CHAR(64) NOT NULL,
+ active BOOLEAN NOT NULL DEFAULT TRUE, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
