@@ -32,7 +32,26 @@ Built using Java Swing, JDBC, MySQL, and Maven.
 
 ## 📸 Application Screenshots
 
-Screenshots of the application will be added here.
+### 1. Admin Login
+![Admin Login](screenshot/01-admin-login-preview.png)
+
+### 2. Dashboard Overview
+![Dashboard](screenshot/02-dashboard-overview-preview.png)
+
+### 3. Donor Management
+![Donor Management](screenshot/03-donor-management-preview.png)
+
+### 4. Blood Stock Management
+![Blood Stock](screenshot/04-blood-stock-preview.png)
+
+### 5. Blood Requests
+![Blood Requests](screenshot/05-blood-requests-preview.png)
+
+### 6. Donation History
+![Donation History](screenshot/06-donation-history-preview.png)
+
+### 7. Reports & Export
+![Reports](screenshot/07-reports-export-preview.png)
 
 ## 📂 Project Structure
 
